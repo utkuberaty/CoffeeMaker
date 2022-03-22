@@ -3,7 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/yildi/AndroidStudioProjects/CoffeMaker/app/src/main/res/layout/root_activity.xml" value="0.16018518518518518" />
+        <entry key="..\:/Users/yildi/AndroidStudioProjects/CoffeMaker/app/src/main/res/drawable/scan_coffee_maker.xml" value="0.1" />
+        <entry key="..\:/Users/yildi/AndroidStudioProjects/CoffeMaker/app/src/main/res/layout/extra_fragment.xml" value="0.16018518518518518" />
+        <entry key="..\:/Users/yildi/AndroidStudioProjects/CoffeMaker/app/src/main/res/layout/overview_fragment.xml" value="0.16018518518518518" />
+        <entry key="..\:/Users/yildi/AndroidStudioProjects/CoffeMaker/app/src/main/res/layout/progress_dialog.xml" value="0.36041666666666666" />
+        <entry key="..\:/Users/yildi/AndroidStudioProjects/CoffeMaker/app/src/main/res/layout/root_activity.xml" value="0.3828571428571429" />
+        <entry key="..\:/Users/yildi/AndroidStudioProjects/CoffeMaker/app/src/main/res/layout/scan_fragment.xml" value="0.14285714285714285" />
+        <entry key="..\:/Users/yildi/AndroidStudioProjects/CoffeMaker/app/src/main/res/layout/size_fragment.xml" value="0.16018518518518518" />
+        <entry key="..\:/Users/yildi/AndroidStudioProjects/CoffeMaker/app/src/main/res/layout/style_fragment.xml" value="0.16018518518518518" />
       </map>
     </option>
   </component>

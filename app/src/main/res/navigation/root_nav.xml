@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_nav"
+    app:startDestination="@id/scanFragment">
+
+    <fragment
+        android:id="@+id/scanFragment"
+        android:name="com.utku.coffeemaker.ui.scan.ScanFragment"
+        android:label="ScanFragment"
+        tools:layout="@layout/scan_fragment">
+        <action
+            android:id="@+id/action_scanFragment_to_styleFragment"
+            app:destination="@id/styleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/styleFragment"
+        android:name="com.utku.coffeemaker.ui.selection.style.StyleFragment"
+        android:label="StyleFragment"
+        tools:layout="@layout/style_fragment">
+        <action
+            android:id="@+id/action_styleFragment_to_sizeFragment"
+            app:destination="@id/sizeFragment" />
+        <action
+            android:id="@+id/action_styleFragment_to_overviewFragment"
+            app:destination="@id/overviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sizeFragment"
+        android:name="com.utku.coffeemaker.ui.selection.size.SizeFragment"
+        android:label="SizeFragment"
+        tools:layout="@layout/size_fragment">
+        <action
+            android:id="@+id/action_sizeFragment_to_extraFragment"
+            app:destination="@id/extraFragment" />
+        <action
+            android:id="@+id/action_sizeFragment_to_overviewFragment"
+            app:destination="@id/overviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/extraFragment"
+        android:name="com.utku.coffeemaker.ui.selection.extra.ExtraFragment"
+        android:label="ExtraFragment"
+        tools:layout="@layout/extra_fragment">
+        <action
+            android:id="@+id/action_extraFragment_to_overviewFragment"
+            app:destination="@id/overviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/overviewFragment"
+        android:name="com.utku.coffeemaker.ui.selection.overview.OverviewFragment"
+        android:label="OverviewFragment"
+        tools:layout="@layout/overview_fragment">
+        <action
+            android:id="@+id/action_overviewFragment_to_scanFragment"
+            app:destination="@id/scanFragment" />
+    </fragment>
+</navigation>
