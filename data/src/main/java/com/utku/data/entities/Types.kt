@@ -1,8 +1,12 @@
 package com.utku.data.entities
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Types(
-    val _id: Int,
+    @SerialName("_id") val id: String,
     val name: String,
-    val sizes: List<Int>,
-    val extras: List<Int>
+    val sizes: List<String>,
+    val extras: List<String>
 )

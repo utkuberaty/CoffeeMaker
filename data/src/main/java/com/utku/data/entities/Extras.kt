@@ -1,8 +1,11 @@
 package com.utku.data.entities
 
-data class Extras (
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-	val _id : Int,
+@Serializable
+data class Extras (
+	@SerialName("_id") val id : String,
 	val name : String,
 	val subselections : List<Subselections>
 )
