@@ -1,4 +1,4 @@
-package com.utku.coffemaker
+package com.utku.coffeemaker
 
 import org.junit.Test
 

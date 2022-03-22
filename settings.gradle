@@ -12,7 +12,7 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "CoffeMaker"
+rootProject.name = "CoffeeMaker"
 include ':app'
 include ':base'
 include ':data'
