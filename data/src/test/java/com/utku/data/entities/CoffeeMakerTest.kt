@@ -7,7 +7,7 @@ import org.junit.Test
 
 class CoffeeMakerTest {
 
-    private val jsonData = """ {
+    private val jsonData = """{
   "types": [ {"_id": "50","name": "Ristretto", "sizes": ["3","4"], "extras": ["9"]}],
   "sizes": [{"_id": 2,"name": "Large"}, {"_id": 3,"name": "Mid"}, {"_id": 4,"name": "Small"}],
   "extras": [{"_id": 9,"name": "Select the amount of sugar","subselections": [{"_id": 20,"name": "A lot"},{"_id": 21,"name": "Normal"}]}]
