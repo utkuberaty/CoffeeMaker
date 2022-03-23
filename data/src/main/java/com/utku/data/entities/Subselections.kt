@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Subselections(
-    @SerialName("_id") val id: String,
-    val name: String
+    @SerialName("_id") val id: String = "",
+    val name: String = ""
 )

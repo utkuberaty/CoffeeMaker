@@ -3,4 +3,9 @@
     <string name="dark_roasted_beans">Dark Roasted Beans</string>
     <string name="tab_the_machine_to_start">Tab the machine to start</string>
     <string name="how_does_this_work"><u>How does this work</u></string>
+    <string name="brew_with_lex">Brew With Lex</string>
+    <string name="select_your_style">Select your style</string>
+    <string name="select_your_size">Select your size</string>
+    <string name="select_your_extra_s">Select your extra’s</string>
+    <string name="overview_your_selection">Overview Your Selection</string>
 </resources>
