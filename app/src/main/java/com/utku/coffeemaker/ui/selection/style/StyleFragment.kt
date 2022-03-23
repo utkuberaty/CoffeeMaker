@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.utku.base.ui.BaseFragment
@@ -12,6 +13,8 @@ import com.utku.coffeemaker.databinding.StyleFragmentBinding
 import com.utku.coffeemaker.ui.root_activity.RootViewModel
 import com.utku.coffeemaker.ui.selection.adapter.SelectionAdapter
 import com.utku.data.entities.Types
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class StyleFragment : BaseFragment<StyleFragmentBinding>({ StyleFragmentBinding.inflate(it) }) {
@@ -49,7 +52,12 @@ class StyleFragment : BaseFragment<StyleFragmentBinding>({ StyleFragmentBinding.
     }
 
     private fun navigateNext() {
-        findNavController().navigate(StyleFragmentDirections.actionStyleFragmentToSizeFragment())
+        lifecycleScope.launch {
+            viewModel.showProgress.value = true
+            delay(1000)
+            viewModel.showProgress.value = false
+            findNavController().navigate(StyleFragmentDirections.actionStyleFragmentToSizeFragment())
+        }
     }
 
 }

@@ -42,6 +42,7 @@ class SelectionAdapter<T>(
                 is Types -> setTypesItems(selection)
                 is Sizes -> setSizeItems(selection)
                 is Extras -> setExtraItems(selection)
+                is SelectedExtra -> setSelectedExtra(selection)
             }
             viewBinding.root.setOnClickListener {
                 selectedSelection?.invoke(selection)
@@ -77,18 +78,17 @@ class SelectionAdapter<T>(
         }
 
         private fun setExtraItems(extra: Extras) {
-
             val typeImageRes = if (extra.name.lowercase().split(" ").any {
                     it.lowercase() == "milk"
                 }) R.drawable.milk
             else R.drawable.sugar_cubes
-
 
             viewBinding.apply {
                 selectionExpandableLayout.apply {
                     isExpanded = true
                     visibility = View.VISIBLE
                 }
+                divider.visibility = View.VISIBLE
                 selectionNameTextView.text = extra.name
                 selectionImageView.setImageResource(typeImageRes)
                 selectionRadioGroup.setOnCheckedChangeListener { _, id ->
@@ -106,7 +106,30 @@ class SelectionAdapter<T>(
             }
         }
 
-        private fun createRadioButton(radioButtonId: Int): RadioButton {
+        private fun setSelectedExtra(selectedExtra: SelectedExtra) {
+            val typeImageRes = if (selectedExtra.extraName.lowercase().split(" ").any {
+                    it.lowercase() == "milk"
+                }) R.drawable.milk
+            else R.drawable.sugar_cubes
+
+            viewBinding.apply {
+                divider.visibility = View.VISIBLE
+                selectionExpandableLayout.apply {
+                    isExpanded = true
+                    visibility = View.VISIBLE
+                }
+                selectionNameTextView.text = selectedExtra.extraName
+                selectionImageView.setImageResource(typeImageRes)
+                selectionRadioGroup.addView(
+                    createRadioButton().apply {
+                        isChecked = true
+                        text = selectedExtra.subselections.name
+                    }
+                )
+            }
+        }
+
+        private fun createRadioButton(radioButtonId: Int = 0): RadioButton {
             val layoutInflater = viewBinding.root.context.getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE
             ) as LayoutInflater

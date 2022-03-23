@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.utku.base.ui.BaseFragment
@@ -13,6 +14,8 @@ import com.utku.coffeemaker.databinding.SizeFragmentBinding
 import com.utku.coffeemaker.ui.root_activity.RootViewModel
 import com.utku.coffeemaker.ui.selection.adapter.SelectionAdapter
 import com.utku.data.entities.Sizes
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class SizeFragment : BaseFragment<SizeFragmentBinding>({ SizeFragmentBinding.inflate(it) }) {
@@ -64,6 +67,11 @@ class SizeFragment : BaseFragment<SizeFragmentBinding>({ SizeFragmentBinding.inf
     }
 
     private fun navigateNext() {
-        findNavController().navigate(SizeFragmentDirections.actionSizeFragmentToExtraFragment())
+        lifecycleScope.launch {
+            viewModel.showProgress.value = true
+            delay(1000)
+            viewModel.showProgress.value = false
+            findNavController().navigate(SizeFragmentDirections.actionSizeFragmentToExtraFragment())
+        }
     }
 }
