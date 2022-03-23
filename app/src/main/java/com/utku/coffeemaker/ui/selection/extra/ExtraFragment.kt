@@ -67,9 +67,7 @@ class ExtraFragment : BaseFragment<ExtraFragmentBinding>({ ExtraFragmentBinding.
 
     private fun setExtraRecyclerView() {
         viewBinding.extraRecyclerView.apply {
-            adapter = SelectionAdapter(
-                extraList
-            )
+            adapter = SelectionAdapter(extraList, viewModel.selectedExtra.value)
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
     }

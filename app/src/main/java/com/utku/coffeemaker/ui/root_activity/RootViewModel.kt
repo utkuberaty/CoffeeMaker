@@ -16,9 +16,9 @@ class RootViewModel(private val coffeeMakerRepository: CoffeeMakerRepository) : 
 
     val coffeeMaker = MutableLiveData<CoffeeMaker?>()
 
-    val selectedType = MutableLiveData<Types>()
-    val selectedSize = MutableLiveData<Sizes>()
-    val selectedExtra = MutableLiveData<Map<String,SelectedExtra>>()
+    val selectedType = MutableLiveData<Types?>()
+    val selectedSize = MutableLiveData<Sizes?>()
+    val selectedExtra = MutableLiveData<Map<String,SelectedExtra>?>()
 
     val coffee: Coffee
     get() = Coffee(selectedType.value, selectedSize.value, selectedExtra.value)

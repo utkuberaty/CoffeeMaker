@@ -19,6 +19,7 @@ import com.utku.data.entities.Types
 
 class SelectionAdapter<T>(
     private val selections: List<T>,
+    private val selectedExtraMap: Map<String, SelectedExtra>? = null,
     private val onSelectedSelection: ((T) -> Unit)? = null,
     private val onExtraEditSelected: (() -> Unit)? = null
 ) : RecyclerView.Adapter<SelectionAdapter<T>.ViewHolder>() {
@@ -100,7 +101,9 @@ class SelectionAdapter<T>(
                 extra.subselections.forEachIndexed { index, subselections ->
                     selectionRadioGroup.addView(
                         createRadioButton(index).apply {
-                            if (index == 0) isChecked = true
+                            isChecked = if (selectedExtraMap?.get(extra.name) != null) {
+                                selectedExtraMap[extra.name]?.subselections?.name == subselections.name
+                            } else index == 0
                             text = subselections.name
                         }
                     )
