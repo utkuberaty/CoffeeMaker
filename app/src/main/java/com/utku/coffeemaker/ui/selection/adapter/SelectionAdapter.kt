@@ -19,7 +19,8 @@ import com.utku.data.entities.Types
 
 class SelectionAdapter<T>(
     private val selections: List<T>,
-    private val selectedSelection: ((T) -> Unit)? = null
+    private val onSelectedSelection: ((T) -> Unit)? = null,
+    private val onExtraEditSelected: (() -> Unit)? = null
 ) : RecyclerView.Adapter<SelectionAdapter<T>.ViewHolder>() {
 
     var selectedExtras: MutableMap<String, SelectedExtra> = mutableMapOf()
@@ -44,9 +45,10 @@ class SelectionAdapter<T>(
                 is Extras -> setExtraItems(selection)
                 is SelectedExtra -> setSelectedExtra(selection)
             }
-            viewBinding.root.setOnClickListener {
-                selectedSelection?.invoke(selection)
-            }
+            if (onSelectedSelection != null)
+                viewBinding.root.setOnClickListener {
+                    onSelectedSelection.invoke(selection)
+                }
 
         }
 
@@ -126,6 +128,10 @@ class SelectionAdapter<T>(
                         text = selectedExtra.subselections.name
                     }
                 )
+                selectionEditTextView.apply {
+                    visibility = View.VISIBLE
+                    setOnClickListener { onExtraEditSelected?.invoke() }
+                }
             }
         }
 

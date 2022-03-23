@@ -56,12 +56,10 @@ class SizeFragment : BaseFragment<SizeFragmentBinding>({ SizeFragmentBinding.inf
 
     private fun setSizeRecyclerView() {
         viewBinding.sizeRecyclerView.apply {
-            adapter = SelectionAdapter(
-                sizeList
-            ) {
+            adapter = SelectionAdapter(sizeList, onSelectedSelection =  {
                 viewModel.selectedSize.value = it
                 navigateNext()
-            }
+            })
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
     }

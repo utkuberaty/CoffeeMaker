@@ -1,16 +1,15 @@
 package com.utku.coffeemaker.ui.selection.overview
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.utku.base.ui.BaseFragment
-import com.utku.base.util.TAG
 import com.utku.coffeemaker.R
 import com.utku.coffeemaker.databinding.OverviewFragmentBinding
 import com.utku.coffeemaker.ui.root_activity.RootViewModel
@@ -30,12 +29,18 @@ class OverviewFragment : BaseFragment<OverviewFragmentBinding>({
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        onBackButton()
         setSelectedSizeAndType()
         setOverviewRecyclerView()
         brewCoffee()
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    private fun onBackButton() {
+        viewBinding.backLinearLayout.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+    }
 
     private fun setSelectedSizeAndType() {
         viewBinding.apply {
@@ -51,6 +56,11 @@ class OverviewFragment : BaseFragment<OverviewFragmentBinding>({
                     selectionNameTextView.text = name
                     divider.visibility = View.VISIBLE
                     selectionEditTextView.visibility = View.VISIBLE
+                    selectionEditTextView.setOnClickListener {
+                        navigateScreenTo(
+                            OverviewFragmentDirections.actionOverviewFragmentToSizeFragment()
+                        )
+                    }
                 }
             }
 
@@ -65,6 +75,11 @@ class OverviewFragment : BaseFragment<OverviewFragmentBinding>({
                     selectionNameTextView.text = name
                     divider.visibility = View.VISIBLE
                     selectionEditTextView.visibility = View.VISIBLE
+                    selectionEditTextView.setOnClickListener {
+                        navigateScreenTo(
+                            OverviewFragmentDirections.actionOverviewFragmentToStyleFragment()
+                        )
+                    }
                 }
             }
 
@@ -82,23 +97,23 @@ class OverviewFragment : BaseFragment<OverviewFragmentBinding>({
                     .setMessage(R.string.finish_text)
                     .setPositiveButton(R.string.thanks) { dialog, _ ->
                         dialog.dismiss()
-                        navigateScanScreen()
+                        navigateScreenTo(OverviewFragmentDirections.actionOverviewFragmentToScanFragment())
                     }.show()
             }
         }
     }
 
-    private fun navigateScanScreen() {
-        findNavController().navigate(OverviewFragmentDirections.actionOverviewFragmentToScanFragment())
+    private fun navigateScreenTo(directions: NavDirections) {
+        findNavController().navigate(directions)
     }
 
     private fun setOverviewRecyclerView() {
         viewBinding.overviewRecyclerView.apply {
             adapter = SelectionAdapter(
-                viewModel.coffee.selectedExtra?.values?.toList() ?: listOf()
-            ) {
-                Log.i(TAG, "selected -> $it")
-            }
+                viewModel.coffee.selectedExtra?.values?.toList() ?: listOf(),
+                onExtraEditSelected = {
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                })
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
     }

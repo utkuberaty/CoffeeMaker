@@ -43,10 +43,10 @@ class StyleFragment : BaseFragment<StyleFragmentBinding>({ StyleFragmentBinding.
 
     private fun setStyleRecyclerView() {
         viewBinding.styleRecyclerView.apply {
-            adapter = SelectionAdapter(typeList) {
+            adapter = SelectionAdapter(typeList, onSelectedSelection =  {
                 viewModel.selectedType.value = it
                 navigateNext()
-            }
+            })
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
     }
