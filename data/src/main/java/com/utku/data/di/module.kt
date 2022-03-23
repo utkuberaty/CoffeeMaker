@@ -5,11 +5,13 @@ import com.utku.data.remote.CoffeeMakerService
 import com.utku.data.remote.RemoteDataSource
 import com.utku.data.repository.CoffeeMakerRepository
 import com.utku.data.util.BASE_URL
+import com.utku.data.util.NoConnectionInterceptor
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
@@ -31,6 +33,8 @@ val dataModule = module {
         }
     }
 
+    single { NoConnectionInterceptor(androidApplication()) }
+
     /**
      * Http client to connect API
      * All TimeOuts 20 seconds
@@ -44,7 +48,9 @@ val dataModule = module {
             .connectTimeout(20L, TimeUnit.SECONDS)
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
-            }).build()
+            })
+            .addInterceptor(get() as NoConnectionInterceptor)
+            .build()
     }
 
     single {
