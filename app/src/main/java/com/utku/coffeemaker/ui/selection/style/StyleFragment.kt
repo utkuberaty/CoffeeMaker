@@ -12,6 +12,7 @@ import com.utku.base.ui.BaseFragment
 import com.utku.coffeemaker.databinding.StyleFragmentBinding
 import com.utku.coffeemaker.ui.root_activity.RootViewModel
 import com.utku.coffeemaker.ui.selection.adapter.SelectionAdapter
+import com.utku.data.entities.Sizes
 import com.utku.data.entities.Types
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -20,6 +21,13 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class StyleFragment : BaseFragment<StyleFragmentBinding>({ StyleFragmentBinding.inflate(it) }) {
 
     private val typeList: MutableList<Types> = mutableListOf()
+
+    private val adapter by lazy {
+        SelectionAdapter<Types>(onSelectedSelection = {
+            viewModel.selectedType.value = it
+            navigateNext()
+        })
+    }
 
     override val viewModel: RootViewModel by sharedViewModel()
 
@@ -39,24 +47,21 @@ class StyleFragment : BaseFragment<StyleFragmentBinding>({ StyleFragmentBinding.
             clear()
             addAll(viewModel.coffeeMaker.value?.types ?: listOf())
         }
+        adapter.submitList(typeList)
     }
 
     private fun setStyleRecyclerView() {
         viewBinding.styleRecyclerView.apply {
-            adapter = SelectionAdapter(typeList, onSelectedSelection =  {
-                viewModel.selectedType.value = it
-                navigateNext()
-            })
+            adapter = this@StyleFragment.adapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
     }
 
     private fun navigateNext() {
         lifecycleScope.launch {
-            viewModel.showProgress.value = true
-            delay(1000)
-            viewModel.showProgress.value = false
-            findNavController().navigate(StyleFragmentDirections.actionStyleFragmentToSizeFragment())
+            viewModel.delayedProgress {
+                findNavController().navigate(StyleFragmentDirections.actionStyleFragmentToSizeFragment())
+            }
         }
     }
 

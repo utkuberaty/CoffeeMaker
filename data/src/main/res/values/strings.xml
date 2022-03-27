@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="check_your_connection">No network available, please check your WiFi or Data connection</string>
+    <string name="check_your_connected_network">No internet available, please check your connected WIFi or Data</string>
+</resources>

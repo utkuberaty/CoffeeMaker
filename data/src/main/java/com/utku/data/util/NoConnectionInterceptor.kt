@@ -3,6 +3,7 @@ package com.utku.data.util
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import com.utku.data.R
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
@@ -12,9 +13,9 @@ import java.net.Socket
 class NoConnectionInterceptor(private val context: Context) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         return if (!isConnectionOn()) {
-            throw NoConnectivityException()
+            throw Throwable(context.getString(R.string.check_your_connection))
         } else if (!isInternetAvailable()) {
-            throw NoInternetException()
+            throw Throwable(context.getString(R.string.check_your_connected_network))
         } else {
             chain.proceed(chain.request())
         }
@@ -51,16 +52,5 @@ class NoConnectionInterceptor(private val context: Context) : Interceptor {
         } catch (e: IOException) {
             false
         }
-
-    }
-
-    class NoConnectivityException : IOException() {
-        override val message: String
-            get() = "No network available, please check your WiFi or Data connection"
-    }
-
-    class NoInternetException() : IOException() {
-        override val message: String
-            get() = "No internet available, please check your connected WIFi or Data"
     }
 }

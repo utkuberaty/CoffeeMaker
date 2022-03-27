@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.utku.base.util.TAG
 import com.utku.coffeemaker.R
@@ -16,13 +18,11 @@ import com.utku.data.entities.SelectedExtra
 import com.utku.data.entities.Sizes
 import com.utku.data.entities.Types
 
-
 class SelectionAdapter<T>(
-    private val selections: List<T>,
     private val selectedExtraMap: Map<String, SelectedExtra>? = null,
     private val onSelectedSelection: ((T) -> Unit)? = null,
     private val onExtraEditSelected: (() -> Unit)? = null
-) : RecyclerView.Adapter<SelectionAdapter<T>.ViewHolder>() {
+) : ListAdapter<T, SelectionAdapter<T>.ViewHolder>(SelectionDiffCallback<T>()) {
 
     var selectedExtras: MutableMap<String, SelectedExtra> = mutableMapOf()
 
@@ -30,10 +30,8 @@ class SelectionAdapter<T>(
         ViewHolder(SelectionItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(selections[position])
+        holder.bind(getItem(position))
     }
-
-    override fun getItemCount(): Int = selections.size
 
     inner class ViewHolder(private val viewBinding: SelectionItemBinding) : RecyclerView.ViewHolder(
         viewBinding.root
@@ -158,4 +156,25 @@ class SelectionAdapter<T>(
 
     }
 
+    class SelectionDiffCallback<T> : DiffUtil.ItemCallback<T>() {
+        override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
+            return when {
+                oldItem is Types && newItem is Types -> oldItem.name == newItem.name
+                oldItem is Sizes && newItem is Sizes -> oldItem.name == newItem.name
+                oldItem is Extras && newItem is Extras -> oldItem.name == newItem.name
+                oldItem is SelectedExtra && newItem is SelectedExtra -> oldItem.extraName == newItem.extraName
+                else -> false
+            }
+        }
+
+        override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
+            return when {
+                oldItem is Types && newItem is Types -> oldItem.name == newItem.name
+                oldItem is Sizes && newItem is Sizes -> oldItem.name == newItem.name
+                oldItem is Extras && newItem is Extras -> oldItem.name == newItem.name
+                oldItem is SelectedExtra && newItem is SelectedExtra -> oldItem.extraName == newItem.extraName
+                else -> false
+            }
+        }
+    }
 }

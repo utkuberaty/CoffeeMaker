@@ -15,9 +15,12 @@
         <entry key="..\:/Users/yildi/AndroidStudioProjects/CoffeMaker/app/src/main/res/layout/selection_item.xml" value="0.7142857142857143" />
         <entry key="..\:/Users/yildi/AndroidStudioProjects/CoffeMaker/app/src/main/res/layout/size_fragment.xml" value="0.8571428571428571" />
         <entry key="..\:/Users/yildi/AndroidStudioProjects/CoffeMaker/app/src/main/res/layout/style_fragment.xml" value="0.42857142857142855" />
+        <entry key="app/src/main/res/layout/overview_fragment.xml" value="0.24074074074074073" />
+        <entry key="app/src/main/res/layout/scan_fragment.xml" value="0.4244791666666667" />
       </map>
     </option>
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

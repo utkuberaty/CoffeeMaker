@@ -22,6 +22,13 @@ class SizeFragment : BaseFragment<SizeFragmentBinding>({ SizeFragmentBinding.inf
 
     private val sizeList = mutableListOf<Sizes>()
 
+    private val adapter by lazy {
+        SelectionAdapter<Sizes>(onSelectedSelection = {
+            viewModel.selectedSize.value = it
+            navigateNext()
+        })
+    }
+
     override val viewModel: RootViewModel by sharedViewModel()
 
     override fun onCreateView(
@@ -51,25 +58,22 @@ class SizeFragment : BaseFragment<SizeFragmentBinding>({ SizeFragmentBinding.inf
             clear()
             addAll(typeSizeList ?: listOf())
         }
+        adapter.submitList(sizeList)
         Log.i(TAG, "sizeList -> $sizeList")
     }
 
     private fun setSizeRecyclerView() {
         viewBinding.sizeRecyclerView.apply {
-            adapter = SelectionAdapter(sizeList, onSelectedSelection =  {
-                viewModel.selectedSize.value = it
-                navigateNext()
-            })
+            adapter = this@SizeFragment.adapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
     }
 
     private fun navigateNext() {
         lifecycleScope.launch {
-            viewModel.showProgress.value = true
-            delay(1000)
-            viewModel.showProgress.value = false
-            findNavController().navigate(SizeFragmentDirections.actionSizeFragmentToExtraFragment())
+            viewModel.delayedProgress {
+                findNavController().navigate(SizeFragmentDirections.actionSizeFragmentToExtraFragment())
+            }
         }
     }
 }

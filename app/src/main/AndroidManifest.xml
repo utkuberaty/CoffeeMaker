@@ -16,7 +16,8 @@
         <activity
             android:name="com.utku.coffeemaker.ui.root_activity.RootActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -14,7 +14,6 @@ import com.utku.coffeemaker.databinding.ExtraFragmentBinding
 import com.utku.coffeemaker.ui.root_activity.RootViewModel
 import com.utku.coffeemaker.ui.selection.adapter.SelectionAdapter
 import com.utku.data.entities.Extras
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -22,8 +21,7 @@ class ExtraFragment : BaseFragment<ExtraFragmentBinding>({ ExtraFragmentBinding.
 
     private val extraList: MutableList<Extras> = mutableListOf()
 
-    private val adapter
-        get() = (viewBinding.extraRecyclerView.adapter as? SelectionAdapter<*>)
+    private val adapter by lazy { SelectionAdapter<Extras>(viewModel.selectedExtra.value) }
 
     override val viewModel: RootViewModel by sharedViewModel()
 
@@ -48,13 +46,15 @@ class ExtraFragment : BaseFragment<ExtraFragmentBinding>({ ExtraFragmentBinding.
             clear()
             addAll(typeExtraList ?: listOf())
         }
+        adapter.submitList(extraList)
+
         Log.i(TAG, "sizeList -> $typeExtraList")
     }
 
     private fun setOnClick() {
         viewBinding.apply {
             overviewButton.setOnClickListener {
-                val selectedExtras = adapter?.selectedExtras
+                val selectedExtras = adapter.selectedExtras
                 viewModel.selectedExtra.value = selectedExtras ?: mapOf()
                 Log.i(TAG, "selectedExtras before navigate ==> $selectedExtras")
                 navigateOverview()
@@ -67,17 +67,16 @@ class ExtraFragment : BaseFragment<ExtraFragmentBinding>({ ExtraFragmentBinding.
 
     private fun setExtraRecyclerView() {
         viewBinding.extraRecyclerView.apply {
-            adapter = SelectionAdapter(extraList, viewModel.selectedExtra.value)
+            adapter = this@ExtraFragment.adapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
     }
 
     private fun navigateOverview() {
         lifecycleScope.launch {
-            viewModel.showProgress.value = true
-            delay(1000)
-            viewModel.showProgress.value = false
-            findNavController().navigate(ExtraFragmentDirections.actionExtraFragmentToOverviewFragment())
+            viewModel.delayedProgress(2000) {
+                findNavController().navigate(ExtraFragmentDirections.actionExtraFragmentToOverviewFragment())
+            }
         }
     }
 }

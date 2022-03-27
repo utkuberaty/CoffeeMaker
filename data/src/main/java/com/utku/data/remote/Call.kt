@@ -13,7 +13,8 @@ abstract class Call {
             val response = call()
             if (response.isSuccessful) {
                 val body = response.body()
-                Result.Success(body)
+                if (body != null) Result.Success(body)
+                else Result.Error(response.code(), "null data!")
             } else Result.Error(response.code(), response.message())
         } catch (e: Exception) {
             Result.Error(-1, e.message ?: e.toString())

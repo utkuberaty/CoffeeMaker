@@ -16,7 +16,8 @@
             app:enterAnim="@anim/slide_left"
             app:exitAnim="@anim/slide_left"
             app:popEnterAnim="@anim/slide_left"
-            app:popExitAnim="@anim/slide_right" />
+            app:popExitAnim="@anim/slide_right"
+           />
     </fragment>
     <fragment
         android:id="@+id/styleFragment"

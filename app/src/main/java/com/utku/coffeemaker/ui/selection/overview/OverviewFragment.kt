@@ -14,6 +14,8 @@ import com.utku.coffeemaker.R
 import com.utku.coffeemaker.databinding.OverviewFragmentBinding
 import com.utku.coffeemaker.ui.root_activity.RootViewModel
 import com.utku.coffeemaker.ui.selection.adapter.SelectionAdapter
+import com.utku.data.entities.Extras
+import com.utku.data.entities.SelectedExtra
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -21,6 +23,13 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class OverviewFragment : BaseFragment<OverviewFragmentBinding>({
     OverviewFragmentBinding.inflate(it)
 }) {
+
+    private val adapter by lazy {
+        SelectionAdapter<SelectedExtra>(
+            onExtraEditSelected = {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            })
+    }
 
     override val viewModel: RootViewModel by sharedViewModel()
 
@@ -89,16 +98,15 @@ class OverviewFragment : BaseFragment<OverviewFragmentBinding>({
     private fun brewCoffee() {
         viewBinding.brewCoffeeButton.setOnClickListener {
             lifecycleScope.launch {
-                viewModel.showProgress.value = true
-                delay(2000)
-                viewModel.showProgress.value = false
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle(R.string.congratulation)
-                    .setMessage(R.string.finish_text)
-                    .setPositiveButton(R.string.thanks) { dialog, _ ->
-                        dialog.dismiss()
-                        navigateScreenTo(OverviewFragmentDirections.actionOverviewFragmentToScanFragment())
-                    }.show()
+                viewModel.delayedProgress {
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setTitle(R.string.congratulation)
+                        .setMessage(R.string.finish_text)
+                        .setPositiveButton(R.string.thanks) { dialog, _ ->
+                            dialog.dismiss()
+                            navigateScreenTo(OverviewFragmentDirections.actionOverviewFragmentToScanFragment())
+                        }.show()
+                }
             }
         }
     }
@@ -109,11 +117,9 @@ class OverviewFragment : BaseFragment<OverviewFragmentBinding>({
 
     private fun setOverviewRecyclerView() {
         viewBinding.overviewRecyclerView.apply {
-            adapter = SelectionAdapter(
-                viewModel.coffee.selectedExtra?.values?.toList() ?: listOf(),
-                onExtraEditSelected = {
-                    requireActivity().onBackPressedDispatcher.onBackPressed()
-                })
+            adapter = this@OverviewFragment.adapter.also {
+                it.submitList(viewModel.coffee.selectedExtra?.values?.toList())
+            }
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
     }

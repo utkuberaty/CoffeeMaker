@@ -21,6 +21,11 @@ abstract class BaseFragment<VB : ViewBinding>(val bindingFactory: (LayoutInflate
 
     protected val viewBinding: VB by lazy { bindingFactory(layoutInflater) }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.i(TAG,"onCreate")
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,4 +35,8 @@ abstract class BaseFragment<VB : ViewBinding>(val bindingFactory: (LayoutInflate
         return viewBinding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.i(TAG,"onViewCreated")
+    }
 }
