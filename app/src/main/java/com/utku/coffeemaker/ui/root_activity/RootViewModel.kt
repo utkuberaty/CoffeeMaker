@@ -32,7 +32,7 @@ class RootViewModel(private val coffeeMakerRepository: CoffeeMakerRepository) : 
     val coffee: Coffee
         get() = Coffee(selectedType.value, selectedSize.value, selectedExtra.value)
 
-    /*fun getCoffeeMakerDetail() {
+    fun getCoffeeMakerDetail(coffeeMakerId: String) {
         viewModelScope.launch {
             coffeeMakerRepository.getCofferMakerDetail(TEST_COFFEE_MACHINE_ID).onStart {
                 _showProgress.value = true
@@ -43,9 +43,9 @@ class RootViewModel(private val coffeeMakerRepository: CoffeeMakerRepository) : 
                 }
             }
         }
-    }*/
+    }
 
-    fun getCoffeeMakerDetail(onSuccess: () -> Unit) {
+    /*fun getCoffeeMakerDetail(onSuccess: () -> Unit) {
         viewModelScope.launch {
             coffeeMakerRepository.getCofferMakerDetail(TEST_COFFEE_MACHINE_ID).onStart {
                 _showProgress.value = true
@@ -59,7 +59,7 @@ class RootViewModel(private val coffeeMakerRepository: CoffeeMakerRepository) : 
                 }
             }
         }
-    }
+    }*/
 
     suspend fun delayedProgress(delay: Long = 1000, progress: () -> Unit) {
         _showProgress.value = true

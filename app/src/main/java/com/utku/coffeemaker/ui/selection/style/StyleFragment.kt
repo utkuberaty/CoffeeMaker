@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.utku.base.ui.BaseFragment
 import com.utku.coffeemaker.databinding.StyleFragmentBinding
@@ -21,6 +22,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class StyleFragment : BaseFragment<StyleFragmentBinding>({ StyleFragmentBinding.inflate(it) }) {
 
     private val typeList: MutableList<Types> = mutableListOf()
+
+    private val args: StyleFragmentArgs by navArgs()
 
     private val adapter by lazy {
         SelectionAdapter<Types>(onSelectedSelection = {
@@ -37,9 +40,23 @@ class StyleFragment : BaseFragment<StyleFragmentBinding>({ StyleFragmentBinding.
         savedInstanceState: Bundle?
     ): View {
         requireActivity().onBackPressedDispatcher.addCallback(this) {}
-        setTypeList()
+        setObserver()
+        getCoffeeMachineDetail()
         setStyleRecyclerView()
         return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    private fun setObserver() {
+        viewModel.coffeeMaker.observe(viewLifecycleOwner) {
+            setTypeList()
+        }
+    }
+
+    private fun getCoffeeMachineDetail() {
+        val coffeeMakerId = args.coffeeMakerId
+        if (!coffeeMakerId.isNullOrEmpty()) {
+            viewModel.getCoffeeMakerDetail(coffeeMakerId)
+        }
     }
 
     private fun setTypeList() {

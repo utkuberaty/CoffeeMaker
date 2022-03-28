@@ -86,7 +86,7 @@ class OverviewFragment : BaseFragment<OverviewFragmentBinding>({
                     selectionEditTextView.visibility = View.VISIBLE
                     selectionEditTextView.setOnClickListener {
                         navigateScreenTo(
-                            OverviewFragmentDirections.actionOverviewFragmentToStyleFragment()
+                            OverviewFragmentDirections.actionOverviewFragmentToStyleFragment(null)
                         )
                     }
                 }
